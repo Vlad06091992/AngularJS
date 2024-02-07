@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="myApp" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Course List</title>
+    <script src="Libraries/angular.js"></script>
+    <link href="Libraries/bootstrap.css" rel="stylesheet"/>
+    <link href="Libraries/bootstrap-theme.css" rel="stylesheet"/>
+</head>
+<body ng-controller="MyController">
+<div class="container">
+    <div class="page-header">
+        <div class="page-header">
+            <h1>
+                Планировщик курсов.
+            </h1>
+            <h3>Пользователь: {{model.user}}. Количество курсов - {{model.courses.length}}</h3>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="input-group">
+            <input ng-model="model.userName" class="form-control"/>
+            <span class="input-group-btn">
+                    <button ng-click="addNewCourse()" class="btn btn-default">Добавить</button>
+                </span>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Курс</th>
+                <th></th>
+                <th>Пройден</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="course in model.courses">
+                <td>{{course.name}}</td>
+                <td><input ng-model="course.passed" class="checkbox" type="checkbox"></td>
+                <td><span style="{{setStyle(course.passed)}}">{{showText(course.passed)}}</span> </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    const myApp = angular.module('myApp', []);
+
+    const model = {
+        user: "User1",
+        courses: [{name: "HTML, CSS", passed:true},
+            {name: "JavaScript Essential", passed:true},
+            {name: "JavaScript Advanced", passed:true},
+            {name: "HTML5 &amp; CSS3", passed: false},
+            {name: "AngularJS", passed: false}],
+        userName: ''
+    };
+
+    myApp.controller('MyController', function ($scope) {
+        $scope.model = model;
+        $scope.showText = function (text){
+            return text ? "Да" : "Нет"
+        };
+        $scope.addNewCourse = function () {
+            model.courses.push({name: model.userName, passed: false})
+        }
+        $scope.setStyle = function (text) {
+            return !text  ? "color:red" : "color:green"
+        }
+    });
+
+</script>
+
+</body>
+</html>

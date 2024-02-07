@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Course List</title>
+    <script src="Libraries/angular.js"></script>
+    <link href="Libraries/bootstrap.css" rel="stylesheet"/>
+    <link href="Libraries/bootstrap-theme.css" rel="stylesheet"/>
+</head>
+<body ng-controller="MyController">
+<div class="container">
+    <!--    Однонаправленная привязка-->
+    <input ng-model="model.userName">
+    <div>{{model.userName}}</div>
+    <div ng-bind="model.userName"></div>
+    <div ng-bind-template="First item name: {{model.courses[0].name}}"></div>
+    <div ng-non-bindable="" >{{model.userName}}</div>
+</div>
+
+<script>
+
+    const myApp = angular.module('myApp', []);
+
+    const model = {
+        userName: '',
+        user:"Vlad",
+        courses: [{name: "HTML, CSS", passed:true},
+            {name: "JavaScript Essential", passed:true},
+            {name: "JavaScript Advanced", passed:true},
+            {name: "HTML5 &amp; CSS3", passed: false},
+            {name: "AngularJS", passed: false}],
+    };
+
+    myApp.controller('MyController', function ($scope) {
+        $scope.model = model;
+        $scope.showText = function (text){
+            return text ? "Да" : "Нет"
+        };
+        $scope.addNewCourse = function () {
+            model.courses.push({name: model.userName, passed: false})
+        }
+        $scope.setStyle = function (text) {
+            return !text  ? "color:red" : "color:green"
+        }
+    });
+
+</script>
+
+</body>
+</html>
